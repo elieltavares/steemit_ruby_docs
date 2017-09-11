@@ -1,949 +1,567 @@
-# Documentation
-
-- [Install](#install)
-- [Browser](#browser)
-- [Config](#config)
-- [JSON-RPC](#jsonrpc)
-- [Database API](#api)
-    - [Subscriptions](#subscriptions)
-    - [Tags](#tags)
-    - [Blocks and transactions](#blocks-and-transactions)
-    - [Globals](#globals)
-    - [Keys](#keys)
-    - [Accounts](#accounts)
-    - [Market](#market)
-    - [Authority / validation](#authority--validation)
-    - [Votes](#votes)
-    - [Content](#content)
-    - [Witnesses](#witnesses)
-- [Login API](#login)
-- [Follow API](#follow-api)
-- [Broadcast API](#broadcast-api)
-- [Broadcast](#broadcast)
-- [Auth](#auth)
-- [Formatter](#formatter)
-
-# Install
-```
-$ npm install steem --save
+```ruby
+ api = Radiator::Api.new
 ```
 
-# Browser 
-```html 
-<script src="./steem.min.js"></script>
-<script>
-steem.api.getAccounts(['ned', 'dan'], function(err, response){
-    console.log(err, response);
-});
-</script>
-```
-
-## Config
-Default config should work with steem. however you can change it to work with golos
-as 
-```js
-steem.api.setOptions({ url: 'wss://ws.golos.io' }); // assuming websocket is work at ws.golos.io
-steem.config.set('address_prefix','GLS');
-steem.config.set('chain_id','782a3039b478c839e4cb0c941ff4eaeb7df40bdd68bd441afd444b9da763de12');
-```
-### set
-```
-steem.config.set('address_prefix','STM');
-```
-### get
-```
-steem.config.get('chain_id');
-```
-
-## JSON-RPC
-Here is how to activate JSON-RPC transport:
-```js
-steem.api.setOptions({ url: 'https://steemd.steemit.com' });
-```
-
-# API
-
-## Subscriptions
-
-### Set Subscribe Callback
-```
-steem.api.setSubscribeCallback(callback, clearFilter, function(err, result) {
-  console.log(err, result);
-});
-```
-### Set Pending Transaction Callback
-```
-steem.api.setPendingTransactionCallback(cb, function(err, result) {
-  console.log(err, result);
-});
-```
-### Set Block Applied Callback
-```
-steem.api.setBlockAppliedCallback(cb, function(err, result) {
-  console.log(err, result);
-});
-```
-### Cancel All Subscriptions
-```
-steem.api.cancelAllSubscriptions(function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Tags
-
-### Get Trending Tags
-```
-steem.api.getTrendingTags(afterTag, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Trending
-```
-steem.api.getDiscussionsByTrending(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Created
-```
-steem.api.getDiscussionsByCreated(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Active
-```
-steem.api.getDiscussionsByActive(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Cashout
-```
-steem.api.getDiscussionsByCashout(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Payout
-```
-steem.api.getDiscussionsByPayout(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Votes
-```
-steem.api.getDiscussionsByVotes(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Children
-```
-steem.api.getDiscussionsByChildren(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Hot
-```
-steem.api.getDiscussionsByHot(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Feed
-```
-steem.api.getDiscussionsByFeed(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Blog
-```
-steem.api.getDiscussionsByBlog(query, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Comments
-```
-steem.api.getDiscussionsByComments(query, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Blocks and transactions
-
-### Get Block Header
-```
-steem.api.getBlockHeader(blockNum, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Block
-```
-steem.api.getBlock(blockNum, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get State
-```
-steem.api.getState(path, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Trending Categories
-```
-steem.api.getTrendingCategories(after, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Best Categories
-```
-steem.api.getBestCategories(after, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Active Categories
-```
-steem.api.getActiveCategories(after, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Recent Categories
-```
-steem.api.getRecentCategories(after, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Globals
-
-### Get Config
-```
-steem.api.getConfig(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Dynamic Global Properties
-```
-steem.api.getDynamicGlobalProperties(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Chain Properties
-```
-steem.api.getChainProperties(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Feed History
-```
-steem.api.getFeedHistory(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Current Median History Price
-```
-steem.api.getCurrentMedianHistoryPrice(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Hardfork Version
-```
-steem.api.getHardforkVersion(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Next Scheduled Hardfork
-```
-steem.api.getNextScheduledHardfork(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Reward Fund
-```
-steem.api.getRewardFund(name, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Vesting Delegations
-```
-steem.api.getVestingDelegations(account, from, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Keys
-
-### Get Key References
-```
-steem.api.getKeyReferences(key, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Accounts
-
-### Get Accounts
-```
-steem.api.getAccounts(names, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Account References
-```
-steem.api.getAccountReferences(accountId, function(err, result) {
-  console.log(err, result);
-});
-```
-### Lookup Account Names
-```
-steem.api.lookupAccountNames(accountNames, function(err, result) {
-  console.log(err, result);
-});
-```
-### Lookup Accounts
-```
-steem.api.lookupAccounts(lowerBoundName, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Account Count
-```
-steem.api.getAccountCount(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Conversion Requests
-```
-steem.api.getConversionRequests(accountName, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Account History
-```
-steem.api.getAccountHistory(account, from, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Owner History
-```
-steem.api.getOwnerHistory(account, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Recovery Request
-```
-steem.api.getRecoveryRequest(account, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Market
-
-### Get Order Book
-```
-steem.api.getOrderBook(limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Open Orders
-```
-steem.api.getOpenOrders(owner, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Liquidity Queue
-```
-steem.api.getLiquidityQueue(startAccount, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Authority / validation
-
-### Get Transaction Hex
-```
-steem.api.getTransactionHex(trx, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Transaction
-```
-steem.api.getTransaction(trxId, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Required Signatures
-```
-steem.api.getRequiredSignatures(trx, availableKeys, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Potential Signatures
-```
-steem.api.getPotentialSignatures(trx, function(err, result) {
-  console.log(err, result);
-});
-```
-### Verify Authority
-```
-steem.api.verifyAuthority(trx, function(err, result) {
-  console.log(err, result);
-});
-```
-### Verify Account Authority
-```
-steem.api.verifyAccountAuthority(nameOrId, signers, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Votes
-
-### Get Active Votes
-```
-steem.api.getActiveVotes(author, permlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Account Votes
-```
-steem.api.getAccountVotes(voter, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Content
+- [get_block_header](https://github.com/elieltavares/radiator/wiki/Block-Api#get_block_header)
+- [get_block](https://github.com/elieltavares/radiator/wiki/Block-Api#get_block)
+- [get_ops_in_block](https://github.com/elieltavares/radiator/wiki/Block-Api#get_ops_in_block)
+- [get_state](https://github.com/elieltavares/radiator/wiki/Block-Api#get_state)
 
 
-### Get Content
+## get_block_header
+```ruby
+response = api.get_block_header(block_num)
+response = api.get_block_header(13921760)
 ```
-steem.api.getContent(author, permlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Content Replies
-```
-steem.api.getContentReplies(parent, parentPermlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Discussions By Author Before Date
-```
-steem.api.getDiscussionsByAuthorBeforeDate(author, startPermlink, beforeDate, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Replies By Last Update
-```
-steem.api.getRepliesByLastUpdate(startAuthor, startPermlink, limit, function(err, result) {
-  console.log(err, result);
-});
+ 
+## get_block
+```ruby
+response = api.get_block(block_num)
+response = api.get_block(13921760)
 ```
 
-## Witnesses
-
-
-### Get Witnesses
-```
-steem.api.getWitnesses(witnessIds, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Witness By Account
-```
-steem.api.getWitnessByAccount(accountName, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Witnesses By Vote
-```
-steem.api.getWitnessesByVote(from, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Lookup Witness Accounts
-```
-steem.api.lookupWitnessAccounts(lowerBoundName, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Witness Count
-```
-steem.api.getWitnessCount(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Active Witnesses
-```
-steem.api.getActiveWitnesses(function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Miner Queue
-```
-steem.api.getMinerQueue(function(err, result) {
-  console.log(err, result);
-});
+## get_ops_in_block
+```ruby
+response = api.get_ops_in_block(block_num, 'onlyVirtual')
+response = api.get_ops_in_block(13921760, 'false')
 ```
 
-## Login API
-
-### Login
-
-/!\ It's **not safe** to use this method with your username and password. This method always return `true` and is only used in intern with empty values to enable broadcast.
-
-```
-steem.api.login('', '', function(err, result) {
-  console.log(err, result);
-});
+## get_state
+```ruby
+response = api.get_state("path")
+response = api.get_state("/trends/funny")
 ```
 
-### Get Api By Name
-```
-steem.api.getApiByName(apiName, function(err, result) {
-  console.log(err, result);
-});
+
+```ruby
+ api = Radiator::FollowApi.new
 ```
 
-## Follow API
+- [get_followers](https://github.com/elieltavares/radiator/wiki/Follower-API#get_followers)
+- [get_following](https://github.com/elieltavares/radiator/wiki/Follower-API#get_following)
+- [get_follow_count](https://github.com/elieltavares/radiator/wiki/Follower-API#get_follow_count)
+- [get_feed_entries](https://github.com/elieltavares/radiator/wiki/Follower-API#get_feed_entries)
+- [get_feed](https://github.com/elieltavares/radiator/wiki/Follower-API#get_feed-show-all-detail)
+- [get_blog_entries](https://github.com/elieltavares/radiator/wiki/Follower-API#get_blog_entries-show-you-blog-feed)
+- [get_blog](https://github.com/elieltavares/radiator/wiki/Follower-API#get_blog-show-you-blog-with-textimage)
+- [get_account_reputations](https://github.com/elieltavares/radiator/wiki/Follower-API#get_account_reputations-get-all-account-with-same-name-and-reputation-thats-accounts-)
+- [get_reblogged_by](https://github.com/elieltavares/radiator/wiki/Follower-API#get_reblogged_by)
+- [get_blog_authors](https://github.com/elieltavares/radiator/wiki/Follower-API#get_blog_authors-get-all-authors-of-your-blog-reesteem-posting)
 
-### Get Followers
+## get_followers
+```ruby
+response = api.get_followers("account", "startNumberFollower", "followType", "MaxNumberOfFollow")
+response = api.get_followers("eliel", "0", "blog", "10")
+response.result[0].follower
+response.result[0].following
+response.result[0].what[0]
 ```
-steem.api.getFollowers(following, startFollower, followType, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Following
-```
-steem.api.getFollowing(follower, startFollowing, followType, limit, function(err, result) {
-  console.log(err, result);
-});
-```
-### Get Follow Count
-```
-steem.api.getFollowCount(account, function(err, result) {
-  console.log(err, result);
-});
-```
-
-## Broadcast API
-
-### Broadcast Transaction Synchronous
-```
-steem.api.broadcastTransactionSynchronous(trx, function(err, result) {
-  console.log(err, result);
-});
-```
-### Broadcast Block
-```
-steem.api.broadcastBlock(b, function(err, result) {
-  console.log(err, result);
-});
+               
+## get_following
+```ruby
+response = api.get_following("account", "startFollowing", "followType", "limit")
+response = api.get_following("eliel", "0", "blog", "10")
+response.result[0].follower
+response.result[0].following
+response.result[0].what[0]
 ```
 
-# Broadcast
-
-### Account Create
-```
-steem.broadcast.accountCreate(wif, fee, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
-  console.log(err, result);
-});
-```
-### Account Create With Delegation
-```
-steem.broadcast.accountCreateWithDelegation(wif, fee, delegation, creator, newAccountName, owner, active, posting, memoKey, jsonMetadata, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-### Delegate Vesting Shares
-```
-steem.broadcast.delegateVestingShares(wif, delegator, delegatee, vesting_shares, function(err, result) {
-  console.log(err, result);
-});
-```
-### Account Update
-```
-steem.broadcast.accountUpdate(wif, account, owner, active, posting, memoKey, jsonMetadata, function(err, result) {
-  console.log(err, result);
-});
-```
-### Account Witness Proxy
-```
-steem.broadcast.accountWitnessProxy(wif, account, proxy, function(err, result) {
-  console.log(err, result);
-});
-```
-### Account Witness Vote
-```
-steem.broadcast.accountWitnessVote(wif, account, witness, approve, function(err, result) {
-  console.log(err, result);
-});
-```
-### Challenge Authority
-```
-steem.broadcast.challengeAuthority(wif, challenger, challenged, requireOwner, function(err, result) {
-  console.log(err, result);
-});
-```
-### Change Recovery Account
-```
-steem.broadcast.changeRecoveryAccount(wif, accountToRecover, newRecoveryAccount, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-### Comment
-```
-steem.broadcast.comment(wif, parentAuthor, parentPermlink, author, permlink, title, body, jsonMetadata, function(err, result) {
-  console.log(err, result);
-});
-```
-### Comment Options
-```
-steem.broadcast.commentOptions(wif, author, permlink, maxAcceptedPayout, percentSteemDollars, allowVotes, allowCurationRewards, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-### Comment Payout
-```
-steem.broadcast.commentPayout(wif, author, permlink, payout, function(err, result) {
-  console.log(err, result);
-});
-```
-### Comment Reward
-```
-steem.broadcast.commentReward(wif, author, permlink, sbdPayout, vestingPayout, function(err, result) {
-  console.log(err, result);
-});
-```
-### Convert
-```
-steem.broadcast.convert(wif, owner, requestid, amount, function(err, result) {
-  console.log(err, result);
-});
-```
-### Curate Reward
-```
-steem.broadcast.curateReward(wif, curator, reward, commentAuthor, commentPermlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Custom
-```
-steem.broadcast.custom(wif, requiredAuths, id, data, function(err, result) {
-  console.log(err, result);
-});
-```
-### Custom Binary
-```
-steem.broadcast.customBinary(wif, id, data, function(err, result) {
-  console.log(err, result);
-});
-```
-### Custom Json
-```
-steem.broadcast.customJson(wif, requiredAuths, requiredPostingAuths, id, json, function(err, result) {
-  console.log(err, result);
-});
-```
-### Delete Comment
-```
-steem.broadcast.deleteComment(wif, author, permlink, function(err, result) {
-  console.log(err, result);
-});
-```
-### Escrow Dispute
-```
-steem.broadcast.escrowDispute(wif, from, to, agent, who, escrowId, function(err, result) {
-  console.log(err, result);
-});
-```
-### Escrow Release
-```
-steem.broadcast.escrowRelease(wif, from, to, agent, who, receiver, escrowId, sbdAmount, steemAmount, function(err, result) {
-  console.log(err, result);
-});
-```
-### Escrow Transfer
-```
-steem.broadcast.escrowTransfer(wif, from, to, agent, escrowId, sbdAmount, steemAmount, fee, ratificationDeadline, escrowExpiration, jsonMeta, function(err, result) {
-  console.log(err, result);
-});
-```
-### Feed Publish
-```
-steem.broadcast.feedPublish(wif, publisher, exchangeRate, function(err, result) {
-  console.log(err, result);
-});
-```
-### Pow2
-```
-steem.broadcast.pow2(wif, work, newOwnerKey, props, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Convert Request
-```
-steem.broadcast.fillConvertRequest(wif, owner, requestid, amountIn, amountOut, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Order
-```
-steem.broadcast.fillOrder(wif, currentOwner, currentOrderid, currentPays, openOwner, openOrderid, openPays, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Vesting Withdraw
-```
-steem.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
-  console.log(err, result);
-});
-```
-### Interest
-```
-steem.broadcast.interest(wif, owner, interest, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Cancel
-```
-steem.broadcast.limitOrderCancel(wif, owner, orderid, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Create
-```
-steem.broadcast.limitOrderCreate(wif, owner, orderid, amountToSell, minToReceive, fillOrKill, expiration, function(err, result) {
-  console.log(err, result);
-});
-```
-### Limit Order Create2
-```
-steem.broadcast.limitOrderCreate2(wif, owner, orderid, amountToSell, exchangeRate, fillOrKill, expiration, function(err, result) {
-  console.log(err, result);
-});
-```
-### Liquidity Reward
-```
-steem.broadcast.liquidityReward(wif, owner, payout, function(err, result) {
-  console.log(err, result);
-});
-```
-### Pow
-```
-steem.broadcast.pow(wif, worker, input, signature, work, function(err, result) {
-  console.log(err, result);
-});
-```
-### Prove Authority
-```
-steem.broadcast.proveAuthority(wif, challenged, requireOwner, function(err, result) {
-  console.log(err, result);
-});
-```
-### Recover Account
-```
-steem.broadcast.recoverAccount(wif, accountToRecover, newOwnerAuthority, recentOwnerAuthority, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-### Report Over Production
-```
-steem.broadcast.reportOverProduction(wif, reporter, firstBlock, secondBlock, function(err, result) {
-  console.log(err, result);
-});
-```
-### Request Account Recovery
-```
-steem.broadcast.requestAccountRecovery(wif, recoveryAccount, accountToRecover, newOwnerAuthority, extensions, function(err, result) {
-  console.log(err, result);
-});
-```
-### Escrow Approve
-```
-steem.broadcast.escrowApprove(wif, from, to, agent, who, escrowId, approve, function(err, result) {
-  console.log(err, result);
-});
-```
-### Set Withdraw Vesting Route
-```
-steem.broadcast.setWithdrawVestingRoute(wif, fromAccount, toAccount, percent, autoVest, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer
-```
-steem.broadcast.transfer(wif, from, to, amount, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer To Vesting
-```
-steem.broadcast.transferToVesting(wif, from, to, amount, function(err, result) {
-  console.log(err, result);
-});
-```
-### Vote
-```
-steem.broadcast.vote(wif, voter, author, permlink, weight, function(err, result) {
-  console.log(err, result);
-});
-```
-### Withdraw Vesting
-```
-steem.broadcast.withdrawVesting(wif, account, vestingShares, function(err, result) {
-  console.log(err, result);
-});
-```
-### Witness Update
-```
-steem.broadcast.witnessUpdate(wif, owner, url, blockSigningKey, props, fee, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Vesting Withdraw
-```
-steem.broadcast.fillVestingWithdraw(wif, fromAccount, toAccount, withdrawn, deposited, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Order
-```
-steem.broadcast.fillOrder(wif, currentOwner, currentOrderid, currentPays, openOwner, openOrderid, openPays, function(err, result) {
-  console.log(err, result);
-});
-```
-### Fill Transfer From Savings
-```
-steem.broadcast.fillTransferFromSavings(wif, from, to, amount, requestId, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Comment Payout
-```
-steem.broadcast.commentPayout(wif, author, permlink, payout, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer To Savings
-```
-steem.broadcast.transferToSavings(wif, from, to, amount, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Transfer From Savings
-```
-steem.broadcast.transferFromSavings(wif, from, requestId, to, amount, memo, function(err, result) {
-  console.log(err, result);
-});
-```
-### Cancel Transfer From Savings
-```
-steem.broadcast.cancelTransferFromSavings(wif, from, requestId, function(err, result) {
-  console.log(err, result);
-});
+## get_follow_count
+```ruby
+response = api.get_follow_count("account")
+response = api.get_follow_count("eliel")
+response.result.account
+response.result.follower_count
+response.result.following_count
 ```
 
-### Multisig
-You can use multisignature to broadcast an operation.
-```
-steem.broadcast.send({
-  extensions: [],
-  operations: [
-    ['vote', {
-      voter: 'guest123',
-      author: 'fabien',
-      permlink: 'test',
-      weight: 1000
-    }]
-  ]}, [privPostingWif1, privPostingWif2], (err, result) => {
-  console.log(err, result);
-});
+## get_feed_entries
+```ruby
+response = api.get_feed_entries("account", "entryId", "MaxPostShow")
+response = api.get_feed_entries("eliel", "0", "7")
+response.result[0].author
+response.result[0].entry_id
+response.result[0].permlink
+response.result[0].reblog_on
 ```
 
-# Auth
-
-### Verify
-```
-steem.auth.verify(name, password, auths);
-```
-
-### Generate Keys
-```
-steem.auth.generateKeys(name, password, roles);
-```
-
-### Get Private Keys
-```
-steem.auth.getPrivateKeys(name, password, roles);
-```
-
-### Is Wif
-```
-steem.auth.isWif(privWif);
-```
-
-### To Wif
-```
-steem.auth.toWif(name, password, role);
-```
-
-### Wif Is Valid
-```
-steem.auth.wifIsValid(privWif, pubWif);
-```
-
-### Wif To Public
-```
-steem.auth.wifToPublic(privWif);
-```
-
-### Sign Transaction
-```
-steem.auth.signTransaction(trx, keys);
-```
-
-# Formatter
-
-### Create Suggested Password
-```
-var password = steem.formatter.createSuggestedPassword();
-console.log(password);
-// => 'GAz3GYFvvQvgm7t2fQmwMDuXEzDqTzn9'
+## get_feed (Show all detail)
+```ruby
+response = api.get_feed("account", "entryId", "MaxPostShow")
+response = api.get_feed("eliel", "0", "7")
+response.result[0].comment
+response.result[0].comment.abs_rshares
+response.result[0].comment.active
+response.result[0].comment.allow_curation_rewards
+response.result[0].comment.allow_replies
+response.result[0].comment.allow_votes
+response.result[0].comment.author
+response.result[0].comment.author_rewards
+response.result[0].comment.beneficiaries
+response.result[0].comment.body
+response.result[0].comment.cashout_time
+response.result[0].comment.category
+response.result[0].comment.children
+response.result[0].comment.children_abs_rshares
+response.result[0].comment.created
+response.result[0].comment.curator_payout_value 
+response.result[0].comment.depth 
+response.result[0].comment.id
+response.result[0].comment.json_metadata
+response.result[0].comment.last_payout
+response.result[0].comment.last_update
+response.result[0].comment.max_accepted_payout
+response.result[0].comment.max_cashout_time
+response.result[0].comment.net_rshares
+response.result[0].comment.net_votes
+response.result[0].comment.parent_author
+response.result[0].comment.parent_permlink
+response.result[0].comment.percent_steem_dollars
+response.result[0].comment.permlink
+response.result[0].comment.reward_weight
+response.result[0].comment.root_comment
+response.result[0].comment.title
+response.result[0].comment.total_payout_value
+response.result[0].comment.total_vote_weight
+response.result[0].comment.vote_rshares
+response.result[0].comment.entry_id
+response.result[0].comment.reblog_by
+response.result[0].comment.reblog_on
 ```
 
-### Comment Permlink
-```
-var parentAuthor = 'ned';
-var parentPermlink = 'a-selfie';
-var commentPermlink = steem.formatter.commentPermlink(parentAuthor, parentPermlink);
-console.log(commentPermlink);
-// => 're-ned-a-selfie-20170621t080403765z'
-```
-
-### Estimate Account Value
-```
-var steemPower = steem.formatter.estimateAccountValue(account);
+## get_blog_entries (Show you blog)
+```ruby
+response = api.get_blog_entries("account", "entryId", "MaxPostShow")
+response = api.get_blog_entries("eliel", "15", "1")
+response.result[0]
+response.result[0].author
+response.result[0].blog
+response.result[0].entry_id
+response.result[0].permlink
+response.result[0].reblog_on
 ```
 
-### Reputation
-```
-var reputation = steem.formatter.reputation(3512485230915);
-console.log(reputation);
-// => 56
-```
-
-### Vest To Steem
-```
-var steemPower = steem.formatter.vestToSteem(vestingShares, totalVestingShares, totalVestingFundSteem);
-console.log(steemPower);
+## get_blog (Show you blog with text,image...)
+```ruby
+response = api.get_blog_entries("account", "entryId", "MaxPostShow")
+response = api.get_blog_entries("eliel", "15", "7")
+response.result[0].author
+response.result[0].blog
+response.result[0].entry_id
+response.result[0].permlink
+response.result[0].reblog_on
 ```
 
-# Utils
-
-### Validate Username
+## get_account_reputations (Get your account, and other too with same name and reputation thats accounts )
+```ruby
+response = api.get_account_reputations("account", "limit")
+response = api.get_account_reputations("eliel", "1")
+response.result[0].account
+response.result[0].reputation
 ```
-var isValidUsername = steem.utils.validateAccountName('test1234');
-console.log(isValidUsername);
-// => 'null'
 
-var isValidUsername = steem.utils.validateAccountName('a1');
-console.log(isValidUsername);
-// => 'Account name should be longer.'
+## get_reblogged_by
+```ruby
+response = api.get_reblogged_by("author", "permlink")
+response = api.get_reblogged_by("teamsteem", "cooperation-is-humanity-s-greatest-asset")
+response.result[0]
+response.result[1]
+```
+
+## get_blog_authors (Get all reesteem)
+```ruby
+response = api.get_blog_authors("BlogAuthor")
+response = api.get_blog_authors("eliel")
+```
+
+
+
+```ruby
+api = Radiator::Api.new
+```
+
+```ruby
+response = api.get_accounts(['name'])
+response = api.get_accounts(['eliel'])
+```
+
+
+```ruby
+ api = Radiator::Api.new
+```
+
+-  [get_config]()
+-  [get_dynamic_global_properties]()
+-  [get_chain_properties]()
+-  [get_feed_history]()
+-  [get_current_median_history_price]()
+-  [get_witness_schedule]()
+-  [get_hardfork_version]()
+-  [get_next_scheduled_hardfork]()
+-  [get_reward_fund]()
+
+## get_config
+```ruby
+response = api.get_config
+```
+
+## get_dynamic_global_properties
+```ruby
+response = api.get_dynamic_global_properties
+```
+
+## get_chain_properties
+```ruby
+response = api.get_chain_properties
+```
+
+## get_feed_history
+```ruby
+response = api.get_feed_history
+```
+
+## get_current_median_history_price
+```ruby
+response = api.get_current_median_history_price
+```
+
+## get_witness_schedule
+```ruby
+response = api.get_witness_schedule
+```
+
+## get_hardfork_version
+```ruby
+response = api.get_hardfork_version
+```
+
+## get_next_scheduled_hardfork
+```ruby
+response = api.get_next_scheduled_hardfork
+```
+
+## get_reward_fund
+```ruby
+response = api.get_reward_fund(name)
+response = api.get_reward_fund('post')
+```
+
+
+```ruby
+api = Radiator::MarketHistoryApi.new
+```
+- [get_market_history](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_market_history-dont-work)
+- [get_market_history_buckets](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_market_history_buckets)
+- [get_order_book](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_order_book)
+- [get_recent_trades](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_recent_trades-current_pays-date-open_pays)
+- [get_ticker](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_ticker-highest_bid-latest-lowest_ask-sbd_volume-steem_volume)
+- [get_trade_history](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_trade_history-dont-work)
+- [get_volume](https://github.com/elieltavares/radiator/wiki/MarketHistory-Api#get_volume-last-24-hours-sbd_volume-steem_volume)
+
+## get_market_history (Don't work)
+```ruby
+response = api.get_market_history (uint32_t bucket_seconds, time_point_sec start, time_point_sec end)
+```
+## get_market_history_buckets
+```ruby
+response = api.get_market_history_buckets
+```
+## get_order_book
+```ruby
+response = api.get_order_book(limit=500)
+response = api.get_order_book(500)
+response.result.asks[1].price
+response.result.asks[1].sbd
+response.result.asks[1].steem
+response.result.bids[2].price
+response.result.bids[2].sbd
+response.result.bids[2].steem
+```
+## get_recent_trades (current_pays, date, open_pays)
+```ruby
+response = api.get_recent_trades(limit=1000)
+response = api.get_recent_trades(7)
+response.result[1].current_pays
+response.result[1].date
+response.result[1].open_pays
+```
+## get_ticker (highest_bid, latest, lowest_ask, sbd_volume, steem_volume)
+```ruby
+response = api.get_ticker
+response.result.highest_bid
+response.result.latest
+response.result.lowest_ask
+response.result.percent_change
+response.result.sbd_volume
+response.result.steem_volume
+```
+## get_trade_history (Don't work)
+```ruby
+response = api.get_trade_history (start, end, limit=1000)
+```
+## get_volume (Last 24 hours, sbd_volume, steem_volume)
+```ruby
+response = api.get_volume
+response.result.sbd_volume
+response.result.steem_volume
+```
+
+```ruby
+stream = Radiator::Stream.new
+```
+## Method List
+```ruby
+head_block_number
+head_block_id
+time
+current_witness
+total_pow
+num_pow_witnesses
+virtual_supply
+current_supply
+confidential_supply
+current_sbd_supply
+confidential_sbd_supply
+total_vesting_fund_steem
+total_vesting_shares
+total_reward_fund_steem
+total_reward_shares2
+total_activity_fund_steem
+total_activity_fund_shares
+sbd_interest_rate
+average_block_size
+maximum_block_size
+current_aslot
+recent_slots_filled
+participation_count
+last_irreversible_block_num
+max_virtual_bandwidth
+current_reserve_ratio
+block_numbers
+blocks
+```
+## Example
+```ruby
+stream.head_block_number do |block|
+    puts "Block Numer: #{block}"
+end
+```
+
+## Operation Method
+```ruby
+stream.operations(:Method_name)
+```
+```ruby
+transfer_to_vesting
+withdraw_vesting
+interest
+transfer
+liquidity_reward
+author_reward
+curation_reward
+transfer_to_savings
+transfer_from_savings
+cancel_transfer_from_savings
+escrow_transfer
+escrow_approve
+escrow_dispute
+escrow_release
+comment
+limit_order_create
+limit_order_cancel
+fill_convert_request
+fill_order
+vote
+account_witness_vote
+account_witness_proxy
+account_create
+account_update
+witness_update
+pow
+custom
+```
+## Example
+```ruby
+stream.operations(:vote) do |op|
+  print "#{op.voter} voted for #{op.author}"
+  puts " (weight: #{op.weight / 100.0}%)"
+end
+```
+## Or all Operations
+```ruby
+stream.operations do |op|
+  puts op.to_json
+end
+```
+
+```ruby
+ api = Radiator::DatabaseApi.new
+```
+
+- [get_trending_tags](https://github.com/elieltavares/radiator/wiki/Tags#get_trending_tags)
+- [get_discussions_by_trending](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_trending)
+- [get_tags_used_by_author](https://github.com/elieltavares/radiator/wiki/Tags#get_tags_used_by_author)
+- [get_discussions_by_payout](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_payout)
+- [get_post_discussions_by_payout](https://github.com/elieltavares/radiator/wiki/Tags#get_post_discussions_by_payout)
+- [get_comment_discussions_by_payout](https://github.com/elieltavares/radiator/wiki/Tags#get_comment_discussions_by_payout)
+- [get_discussions_by_created](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_created)
+- [get_discussions_by_active](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_active)
+- [get_discussions_by_cashout](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_cashout)
+- [get_discussions_by_votes](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_votes)
+- [get_discussions_by_children](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_children)
+- [get_discussions_by_hot](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_hot)
+- [get_discussions_by_feed](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_feed)
+- [get_discussions_by_blog](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_blog)
+- [get_discussions_by_comments](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_comments)
+- [get_discussions_by_promoted](https://github.com/elieltavares/radiator/wiki/Tags#get_discussions_by_promoted)
+
+
+## get_trending_tags
+```ruby
+response = api.get_trending_tags("TagName or for All empty","limit")
+response = api.get_trending_tags("",10)
+response.result[0]
+response.result[0].comments
+response.result[0].name
+response.result[0].net_votes
+response.result[0].top_posts
+response.result[0].total_payouts
+response.result[0].trending
+```
+               
+## get_discussions_by_trending
+```ruby
+api.get_discussions_by_trending("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_trending("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+api.get_discussions_by_trending('tag':'brasil' ,'limit': '10',"filter_tags": [])
+response.result[0].abs_rshares
+response.result[0].active
+response.result[0].active_votes
+response.result[0].active_votes[0].percent
+response.result[0].active_votes[0].reputation
+response.result[0].active_votes[0].rshares
+response.result[0].active_votes[0].time 
+response.result[0].active_votes[0].voter 
+response.result[0].active_votes[0].weight
+response.result[0].allow_curation_rewards
+response.result[0].allow_replies
+response.result[0].allow_votes
+response.result[0].author
+response.result[0].author_reputation
+response.result[0].author_rewards
+response.result[0].beneficiaries
+response.result[0].body
+response.result[0].body_length
+response.result[0].cashout_time
+response.result[0].category
+response.result[0].children
+response.result[0].children_abs_rshares
+response.result[0].created
+response.result[0].curator_payout_value
+response.result[0].depth
+response.result[0].id
+response.result[0].json_metadata 
+response.result[0].last_payout
+response.result[0].last_update
+response.result[0].max_accepted_payout
+response.result[0].max_cashout_time
+response.result[0].net_rshares
+response.result[0].net_votes
+response.result[0].parent_author
+response.result[0].parent_permlink
+response.result[0].pending_payout_value
+response.result[0].percent_steem_dollars
+response.result[0].permlink
+response.result[0].promoted
+response.result[0].reblogged_by
+response.result[0].replies
+response.result[0].reward_weight
+response.result[0].root_comment
+response.result[0].root_title
+response.result[0].title
+response.result[0].total_payout_value
+response.result[0].total_pending_payout_value
+response.result[0].total_vote_weight
+response.result[0].url
+response.result[0].vote_rshares
+```
+## get_tags_used_by_author
+```ruby
+api.get_tags_used_by_author("Author")
+api.get_tags_used_by_author("eliel")
+```
+
+## get_discussions_by_payout
+```ruby
+api.get_discussions_by_payout("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_payout("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_post_discussions_by_payout
+```ruby
+api.get_post_discussions_by_payout("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_post_discussions_by_payout("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_comment_discussions_by_payout
+```ruby
+api.get_comment_discussions_by_payout("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_comment_discussions_by_payout("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_created
+```ruby
+api.get_discussions_by_created("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_created("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_active
+```ruby
+api.get_discussions_by_active("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_active("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_cashout
+```ruby
+api.get_discussions_by_cashout("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_cashout("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_votes
+```ruby
+api.get_discussions_by_votes("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_votes("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_children
+```ruby
+api.get_discussions_by_children("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_children("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_hot
+```ruby
+api.get_discussions_by_hot("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_hot("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
+```
+
+## get_discussions_by_feed
+```ruby
+response = api.get_discussions_by_feed('tag': 'eliel', 'limit': 10)
+```
+
+## get_discussions_by_blog
+```ruby
+response = api.get_discussions_by_blog('tag': 'eliel', 'limit': 10)
+```
+
+## get_discussions_by_comments
+```ruby
+response = api.get_discussions_by_comments("start_author":"smooth","start_permlink":"test","limit":"10")
+```
+
+## get_discussions_by_promoted
+```ruby
+api.get_discussions_by_promoted("select_tags": [], "filter_tags": [], "select_authors": [], "truncate_body": 0, "start_author": '', "start_permlink": '', "parent_author": '', "parent_permlink": '', "limit": 1)
+api.get_discussions_by_promoted("select_tags": ["brasil"], "filter_tags": [], "select_authors": [],"limit": 1)
 ```
